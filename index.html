@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Packet Index | 36 Websites</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f4f7fc 0%, #eef2f5 100%);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      padding: 2rem 1.5rem;
+      color: #1a2c3e;
+    }
+
+    /* container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* header area */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #1e3a5f;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      margin-bottom: 1rem;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1e4663, #0f2c41);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subhead {
+      font-size: 1.1rem;
+      color: #2c4c6e;
+      max-width: 650px;
+      margin: 0.75rem auto 0;
+      border-bottom: 1px solid #cbdde9;
+      display: inline-block;
+      padding-bottom: 0.4rem;
+    }
+
+    .info-note {
+      background: #e9f0f5;
+      border-left: 5px solid #2c7da0;
+      padding: 0.9rem 1.4rem;
+      border-radius: 20px;
+      margin: 1.8rem auto 0;
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.75rem;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1a4b6e;
+    }
+
+    .info-note span {
+      background: #1e3a5f20;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    /* grid layout */
+    .packet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.6rem;
+      margin-top: 2rem;
+    }
+
+    /* card design */
+    .packet-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(0px);
+      border-radius: 28px;
+      box-shadow: 0 12px 28px -8px rgba(0, 32, 64, 0.12), 0 2px 4px rgba(0,0,0,0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.6);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .packet-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 22px 32px -12px rgba(0, 48, 80, 0.2);
+      background: white;
+      border-color: #c9e0ed;
+    }
+
+    .card-content {
+      padding: 1.6rem 1.4rem 1.5rem;
+      flex: 1;
+    }
+
+    .packet-label {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      background: linear-gradient(115deg, #1f4868, #0f3149);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .packet-label .ordinal {
+      background: none;
+      -webkit-background-clip: unset;
+      background: none;
+      color: #0f3b57;
+    }
+
+    .addon-tag {
+      background: #ffedd5;
+      color: #b45309;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      letter-spacing: 0.3px;
+      margin-left: 6px;
+      vertical-align: middle;
+      display: inline-block;
+      border: 1px solid #fed7aa;
+    }
+
+    .url-preview {
+      background: #f2f6f9;
+      border-radius: 18px;
+      padding: 0.5rem 0.8rem;
+      margin: 1rem 0 1.2rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.7rem;
+      color: #2c6682;
+      word-break: break-all;
+      border: 1px solid #e2edf4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .url-preview::before {
+      content: "🔗";
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+
+    .btn-visit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #1f5e83;
+      color: white;
+      border: none;
+      padding: 0.7rem 0;
+      width: 100%;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      font-family: inherit;
+      margin-top: 0.2rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .btn-visit:hover {
+      background: #0f4468;
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(0, 68, 102, 0.3);
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 3.5rem;
+      font-size: 0.85rem;
+      color: #3c6e8f;
+      border-top: 1px solid #cde0ec;
+      padding-top: 2rem;
+    }
+
+    .config-guide {
+      background: #ffffffcc;
+      border-radius: 24px;
+      padding: 1rem 1.6rem;
+      margin-bottom: 2rem;
+      font-size: 0.85rem;
+      border: 1px solid #dce9f2;
+      backdrop-filter: blur(2px);
+    }
+
+    .config-guide code {
+      background: #1e2f3c10;
+      padding: 0.2rem 0.4rem;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #155f7c;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1.2rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .packet-label {
+        font-size: 1.4rem;
+      }
+      .packet-grid {
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">✦ INDEX ARCHIVE ✦</div>
+    <h1>Packet Navigator</h1>
+    <div class="subhead">complete collection · 36 websites</div>
+    <div class="info-note">
+      📦 1st → 36th packet (skip 14th) &nbsp;|&nbsp; 
+      <span>✨ 24th + 24th add-on</span> &nbsp;|&nbsp;
+      ⚡ total 36 live links
+    </div>
+  </div>
+
+  <!-- quick config hint (user-friendly) -->
+  <div class="config-guide">
+    💡 <strong>Easy setup:</strong> Open the script section below and edit the <code style="background:#eef2f5;">customUrls</code> object.  
+    Replace <code>"#"</code> with your actual website addresses for each packet label.  
+    The page automatically displays your links. No HTML editing required.
+  </div>
+
+  <div id="cardsContainer" class="packet-grid">
+    <!-- dynamic cards injected via JS -->
+    <div style="text-align:center; padding: 3rem;">Loading your packet index...</div>
+  </div>
+  <div class="footer-note">
+    🧭 36 portals — each packet leads to its own unique website. <br>
+    Missing 14th packet is intentional, 24th packet includes special add-on.
+  </div>
+</div>
+
+<script>
+  // --------------------------------------------------------------
+  //  CONFIGURATION SECTION: Replace placeholder URLs with your actual websites
+  // --------------------------------------------------------------
+  // 1. All packet labels are automatically generated (see below).
+  // 2. To assign your real URLs, edit the 'customUrls' object.
+  //    - Key = exact packet label (e.g., "1st Packet", "24th Packet Add-on")
+  //    - Value = your full website URL (https://...)
+  // 3. If a label is not listed in customUrls, it defaults to "#" (disabled).
+  //    You can also leave default "#" and update later.
+  //
+  //  EXAMPLE:
+  //    "1st Packet": "https://myfirstsite.com",
+  //    "2nd Packet": "https://portfolio.example.net",
+  //    "24th Packet Add-on": "https://special-addon.com"
+  //
+  // --------------------------------------------------------------
+  
+  const customUrls = {
+    // ---------- ADD YOUR REAL WEBSITE URLs BELOW ----------
+    // Replace the "#" values with actual links. Keep the labels exactly as shown.
+    "1st Packet": "#",
+    "2nd Packet": "#",
+    "3rd Packet": "#",
+    "4th Packet": "#",
+    "5th Packet": "#",
+    "6th Packet": "#",
+    "7th Packet": "#",
+    "8th Packet": "#",
+    "9th Packet": "#",
+    "10th Packet": "#",
+    "11th Packet": "#",
+    "12th Packet": "#",
+    "13th Packet": "#",
+    // 14th packet is SKIPPED (no entry)
+    "15th Packet": "#",
+    "16th Packet": "#",
+    "17th Packet": "#",
+    "18th Packet": "#",
+    "19th Packet": "#",
+    "20th Packet": "#",
+    "21st Packet": "#",
+    "22nd Packet": "#",
+    "23rd Packet": "#",
+    "24th Packet": "#",
+    "24th Packet Add-on": "#",
+    "25th Packet": "#",
+    "26th Packet": "#",
+    "27th Packet": "#",
+    "28th Packet": "#",
+    "29th Packet": "#",
+    "30th Packet": "#",
+    "31st Packet": "#",
+    "32nd Packet": "#",
+    "33rd Packet": "#",
+    "34th Packet": "#",
+    "35th Packet": "#",
+    "36th Packet": "#"
+    // ---------- END OF CUSTOM URLS ----------
+  };
+
+  // --------------------------------------------------------------
+  //  GENERATE ALL 36 PACKET LABELS (correct order, skip 14, double 24)
+  // --------------------------------------------------------------
+  function generatePacketLabels() {
+    const labels = [];
+    // ordinal helper
+    function ordinal(n) {
+      if (n === 1) return "1st";
+      if (n === 2) return "2nd";
+      if (n === 3) return "3rd";
+      if (n === 21) return "21st";
+      if (n === 22) return "22nd";
+      if (n === 23) return "23rd";
+      if (n === 31) return "31st";
+      if (n === 32) return "32nd";
+      if (n === 33) return "33rd";
+      return `${n}th`;
+    }
+
+    for (let i = 1; i <= 36; i++) {
+      if (i === 14) continue;        // skip 14th completely
+      if (i === 24) {
+        // first 24th packet (standard)
+        labels.push("24th Packet");
+        // second: add-on version
+        labels.push("24th Packet Add-on");
+        continue;
+      }
+      labels.push(`${ordinal(i)} Packet`);
+    }
+    return labels;
+  }
+
+  // Get the ordered list of exactly 36 labels
+  const orderedLabels = generatePacketLabels();
+
+  // Validate length = 36 (safety check)
+  if (orderedLabels.length !== 36) {
+    console.warn(`Label count mismatch: ${orderedLabels.length}, expected 36`);
+  }
+
+  // Build final dataset: each item = { label, url }
+  function buildPacketsData() {
+    return orderedLabels.map(label => {
+      // Use customUrls if provided, fallback to "#"
+      const targetUrl = (customUrls && customUrls[label]) ? customUrls[label] : "#";
+      return { label, url: targetUrl };
+    });
+  }
+
+  // --------------------------------------------------------------
+  //  RENDER CARDS (dynamic, elegant, with safety check for empty URLs)
+  // --------------------------------------------------------------
+  function renderCards() {
+    const container = document.getElementById('cardsContainer');
+    if (!container) return;
+
+    const packets = buildPacketsData();
+    
+    // clear loading text
+    container.innerHTML = '';
+    
+    packets.forEach(packet => {
+      const card = document.createElement('div');
+      card.className = 'packet-card';
+      
+      // detect if it's the add-on for special styling
+      const isAddon = packet.label.includes('Add-on');
+      const addonBadge = isAddon ? '<span class="addon-tag">➕ add‑on</span>' : '';
+      
+      // display URL preview (shorten for readability but show full on hover)
+      let displayUrl = packet.url;
+      if (!displayUrl || displayUrl === "#") {
+        displayUrl = '⚠️ not configured';
+      } else {
+        // trim for preview but show full in title
+        if (displayUrl.length > 48) {
+          displayUrl = displayUrl.substring(0, 45) + '...';
+        }
+      }
+      
+      // inner structure
+      card.innerHTML = `
+        <div class="card-content">
+          <div class="packet-label">
+            <span class="ordinal">${escapeHtml(packet.label)}</span>
+            ${addonBadge}
+          </div>
+          <div class="url-preview" title="Click 'Visit' to open the website — current destination: ${packet.url === '#' ? 'placeholder, set real URL in customUrls' : packet.url}">
+            ${packet.url === '#' ? '🔒 set URL in config' : (packet.url.length > 55 ? packet.url.substring(0, 52)+'…' : packet.url)}
+          </div>
+          <button class="btn-visit" data-url="${escapeAttr(packet.url)}" data-label="${escapeAttr(packet.label)}">
+            🌐  Visit website  →
+          </button>
+        </div>
+      `;
+      
+      container.appendChild(card);
+    });
+    
+    // attach event listeners to all buttons (delegation or direct)
+    document.querySelectorAll('.btn-visit').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = btn.getAttribute('data-url');
+        const label = btn.getAttribute('data-label');
+        
+        if (!url || url === "#") {
+          alert(`🔧 "${label}" has no valid URL yet.\n\nPlease edit the "customUrls" object in the <script> and set the correct website address.\n\nExample:\n"${label}": "https://your-actual-site.com"`);
+          return;
+        }
+        
+        // try to open website in new tab
+        window.open(url, '_blank', 'noopener,noreferrer');
+      });
+    });
+  }
+  
+  // small helper to escape HTML
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+  
+  function escapeAttr(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  
+  // Render on load
+  window.addEventListener('DOMContentLoaded', () => {
+    renderCards();
+    
+    // optional: small console reminder for configuration
+    console.log('📡 Packet Index ready | 36 websites (no 14th, double 24th)');
+    console.log('🔧 To add your website URLs, edit the "customUrls" object inside <script> tag.');
+  });
+</script>
+
+<!-- additional inline note for clarity (visible in source) -->
+<!-- 
+  ==============================================================
+  HOW TO SET YOUR 36 WEBSITE LINKS (super simple):
+  
+  1. Look for the "customUrls" object inside the <script> above.
+  2. You'll see labels like "1st Packet": "#", "2nd Packet": "#", ... up to "36th Packet"
+  3. Replace each "#" with the full URL of your corresponding website.
+     Example: "15th Packet": "https://myfifteenthwebsite.com",
+  4. Save the file and open in browser — all cards will link to your sites.
+  
+  IMPORTANT: 
+    - The 14th packet is intentionally missing.
+    - "24th Packet" and "24th Packet Add-on" are two separate entries.
+    - Total count = 36 cards. Ensure you fill both 24th entries with their unique URLs.
+  ==============================================================
+-->
+</body>
+</html>
