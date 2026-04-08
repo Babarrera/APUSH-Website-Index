@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Packet Index | 36 Websites</title>
+  <title>APUSH Index | Packets + Period Reviews + Extras</title>
   <style>
     * {
       margin: 0;
@@ -18,16 +18,34 @@
       color: #1a2c3e;
     }
 
-    /* container */
     .container {
       max-width: 1400px;
       margin: 0 auto;
     }
 
-    /* header area */
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
+    .section {
+      margin-top: 3.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #1e4663, #2c6288);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      border-left: 5px solid #2c7da0;
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-sub {
+      color: #2c5a7a;
+      margin-bottom: 1.2rem;
+      font-size: 0.9rem;
+      padding-left: 1rem;
     }
 
     .badge {
@@ -89,18 +107,15 @@
       font-size: 0.85rem;
     }
 
-    /* grid layout */
-    .packet-grid {
+    .packet-grid, .review-grid, .extras-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.6rem;
-      margin-top: 2rem;
+      margin-top: 1rem;
     }
 
-    /* card design */
-    .packet-card {
+    .packet-card, .review-card, .extra-card {
       background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(0px);
       border-radius: 28px;
       box-shadow: 0 12px 28px -8px rgba(0, 32, 64, 0.12), 0 2px 4px rgba(0,0,0,0.02);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -110,7 +125,7 @@
       flex-direction: column;
     }
 
-    .packet-card:hover {
+    .packet-card:hover, .review-card:hover, .extra-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 22px 32px -12px rgba(0, 48, 80, 0.2);
       background: white;
@@ -122,8 +137,8 @@
       flex: 1;
     }
 
-    .packet-label {
-      font-size: 1.65rem;
+    .packet-label, .review-label, .extra-label {
+      font-size: 1.55rem;
       font-weight: 700;
       letter-spacing: -0.3px;
       background: linear-gradient(115deg, #1f4868, #0f3149);
@@ -135,13 +150,6 @@
       align-items: baseline;
       gap: 8px;
       flex-wrap: wrap;
-    }
-
-    .packet-label .ordinal {
-      background: none;
-      -webkit-background-clip: unset;
-      background: none;
-      color: #0f3b57;
     }
 
     .addon-tag {
@@ -208,99 +216,70 @@
 
     .footer-note {
       text-align: center;
-      margin-top: 3.5rem;
+      margin-top: 3rem;
       font-size: 0.85rem;
       color: #3c6e8f;
       border-top: 1px solid #cde0ec;
       padding-top: 2rem;
     }
 
-    .config-guide {
-      background: #ffffffcc;
-      border-radius: 24px;
-      padding: 1rem 1.6rem;
-      margin-bottom: 2rem;
-      font-size: 0.85rem;
-      border: 1px solid #dce9f2;
-      backdrop-filter: blur(2px);
-    }
-
-    .config-guide code {
-      background: #1e2f3c10;
-      padding: 0.2rem 0.4rem;
-      border-radius: 12px;
-      font-family: monospace;
-      font-size: 0.8rem;
-      color: #155f7c;
-    }
-
     @media (max-width: 640px) {
-      body {
-        padding: 1.2rem;
-      }
-      h1 {
-        font-size: 2rem;
-      }
-      .packet-label {
-        font-size: 1.4rem;
-      }
-      .packet-grid {
-        gap: 1rem;
-      }
+      body { padding: 1rem; }
+      h1 { font-size: 2rem; }
+      .section-title { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <div class="badge">✦ INDEX ARCHIVE ✦</div>
+    <div class="badge">✦ APUSH MASTER INDEX ✦</div>
     <h1>Packet Navigator</h1>
-    <div class="subhead">complete collection · 36 websites</div>
+    <div class="subhead">36 packets · period reviews · additional resources</div>
     <div class="info-note">
       📦 1st → 36th packet (skip 14th) &nbsp;|&nbsp; 
       <span>✨ 24th + 24th add-on</span> &nbsp;|&nbsp;
-      ⚡ total 36 live links
+      ⚡ all links open in new tab
     </div>
   </div>
 
-  <!-- quick config hint (user-friendly) -->
-  <div class="config-guide">
-    💡 <strong>Easy setup:</strong> Open the script section below and edit the <code style="background:#eef2f5;">customUrls</code> object.  
-    Replace <code>"#"</code> with your actual website addresses for each packet label.  
-    The page automatically displays your links. No HTML editing required.
+  <!-- SECTION 1: PACKETS (36 original) -->
+  <div class="section">
+    <div class="section-title">📮 Packet index (1–36)</div>
+    <div id="cardsContainer" class="packet-grid">
+      <div style="text-align:center; padding: 2rem;">Loading packets...</div>
+    </div>
   </div>
 
-  <div id="cardsContainer" class="packet-grid">
-    <!-- dynamic cards injected via JS -->
-    <div style="text-align:center; padding: 3rem;">Loading your packet index...</div>
+  <!-- SECTION 2: PERIOD REVIEWS -->
+  <div class="section">
+    <div class="section-title">📚 Period reviews</div>
+    <div class="section-sub">APUSH periods 1–9 – edit the `periodReviews` object in the script to add your URLs</div>
+    <div id="reviewsContainer" class="review-grid">
+      <div style="text-align:center; padding: 2rem;">Loading periods...</div>
+    </div>
   </div>
+
+  <!-- SECTION 3: ADDITIONAL WEBSITES (static, code-only) -->
+  <div class="section">
+    <div class="section-title">➕ Additional websites</div>
+    <div class="section-sub">Edit the `additionalEntries` array in the script to add new links (copy‑paste into the code)</div>
+    <div id="extrasContainer" class="extras-grid">
+      <div style="text-align:center; padding: 2rem;">Loading extras...</div>
+    </div>
+  </div>
+
   <div class="footer-note">
-    🧭 36 portals — each packet leads to its own unique website. <br>
-    Missing 14th packet is intentional, 24th packet includes special add-on.
+    🧭 All links open in new tab. To add or change any link, edit the configuration objects inside the &lt;script&gt; tag.<br>
+    Missing 14th packet is intentional; 24th packet includes an add‑on.
   </div>
 </div>
 
 <script>
-  // --------------------------------------------------------------
-  //  CONFIGURATION SECTION: Replace placeholder URLs with your actual websites
-  // --------------------------------------------------------------
-  // 1. All packet labels are automatically generated (see below).
-  // 2. To assign your real URLs, edit the 'customUrls' object.
-  //    - Key = exact packet label (e.g., "1st Packet", "24th Packet Add-on")
-  //    - Value = your full website URL (https://...)
-  // 3. If a label is not listed in customUrls, it defaults to "#" (disabled).
-  //    You can also leave default "#" and update later.
-  //
-  //  EXAMPLE:
-  //    "1st Packet": "https://myfirstsite.com",
-  //    "2nd Packet": "https://portfolio.example.net",
-  //    "24th Packet Add-on": "https://special-addon.com"
-  //
-  // --------------------------------------------------------------
-  
+  // ==============================================================
+  // 1. PACKET CONFIGURATION (exactly as you provided)
+  // ==============================================================
   const customUrls = {
-    // ---------- ADD YOUR REAL WEBSITE URLs BELOW ----------
-    // Replace the "#" values with actual links. Keep the labels exactly as shown.
     "1st Packet": "https://babarrera.github.io/APUSH-1st-Packet/",
     "2nd Packet": "https://babarrera.github.io/APUSH-2nd-Packet/#test-tips",
     "3rd Packet": "https://babarrera.github.io/APUSH-3rd-Packet/",
@@ -338,15 +317,11 @@
     "34th Packet": "https://babarrera.github.io/APUSH-34th-Packet-/",
     "35th Packet": "https://babarrera.github.io/APUSH-35th-Packet-/",
     "36th Packet": "https://babarrera.github.io/APUSH-36th-Packet/"
-    // ---------- END OF CUSTOM URLS ----------
   };
 
-  // --------------------------------------------------------------
-  //  GENERATE ALL 36 PACKET LABELS (correct order, skip 14, double 24)
-  // --------------------------------------------------------------
+  // Generate 36 packet labels (skip 14, double 24)
   function generatePacketLabels() {
     const labels = [];
-    // ordinal helper
     function ordinal(n) {
       if (n === 1) return "1st";
       if (n === 2) return "2nd";
@@ -359,13 +334,10 @@
       if (n === 33) return "33rd";
       return `${n}th`;
     }
-
     for (let i = 1; i <= 36; i++) {
-      if (i === 14) continue;        // skip 14th completely
+      if (i === 14) continue;
       if (i === 24) {
-        // first 24th packet (standard)
         labels.push("24th Packet");
-        // second: add-on version
         labels.push("24th Packet Add-on");
         continue;
       }
@@ -374,92 +346,140 @@
     return labels;
   }
 
-  // Get the ordered list of exactly 36 labels
   const orderedLabels = generatePacketLabels();
 
-  // Validate length = 36 (safety check)
-  if (orderedLabels.length !== 36) {
-    console.warn(`Label count mismatch: ${orderedLabels.length}, expected 36`);
-  }
-
-  // Build final dataset: each item = { label, url }
   function buildPacketsData() {
-    return orderedLabels.map(label => {
-      // Use customUrls if provided, fallback to "#"
-      const targetUrl = (customUrls && customUrls[label]) ? customUrls[label] : "#";
-      return { label, url: targetUrl };
-    });
+    return orderedLabels.map(label => ({
+      label,
+      url: customUrls[label] || "#"
+    }));
   }
 
-  // --------------------------------------------------------------
-  //  RENDER CARDS (dynamic, elegant, with safety check for empty URLs)
-  // --------------------------------------------------------------
-  function renderCards() {
+  // ==============================================================
+  // 2. PERIOD REVIEWS - EDIT THIS OBJECT (add your URLs)
+  // ==============================================================
+  const periodReviews = {
+    "Period 1 (1491–1607)": "#",
+    "Period 2 (1607–1754)": "#",
+    "Period 3 (1754–1800)": "#",
+    "Period 4 (1800–1848)": "#",
+    "Period 5 (1844–1877)": "#",
+    "Period 6 (1865–1898)": "#",
+    "Period 7 (1890–1945)": "#",
+    "Period 8 (1945–1980)": "#",
+    "Period 9 (1980–Present)": "#"
+  };
+
+  // ==============================================================
+  // 3. ADDITIONAL WEBSITES - EDIT THIS ARRAY (copy/paste new entries)
+  //    Each entry: { label: "Display name", url: "https://..." }
+  // ==============================================================
+  let additionalEntries = [
+    { label: "📌 Example extra resource", url: "#" }
+    // Add your own entries below, for example:
+    // { label: "DBQ Writing Guide", url: "https://example.com/dbq" },
+    // { label: "Quizlet Flashcards", url: "https://quizlet.com/..." }
+  ];
+
+  // ==============================================================
+  // RENDER FUNCTIONS (no user modification from browser)
+  // ==============================================================
+  function renderPackets() {
     const container = document.getElementById('cardsContainer');
     if (!container) return;
-
     const packets = buildPacketsData();
-    
-    // clear loading text
     container.innerHTML = '';
-    
     packets.forEach(packet => {
-      const card = document.createElement('div');
-      card.className = 'packet-card';
-      
-      // detect if it's the add-on for special styling
       const isAddon = packet.label.includes('Add-on');
       const addonBadge = isAddon ? '<span class="addon-tag">➕ add‑on</span>' : '';
-      
-      // display URL preview (shorten for readability but show full on hover)
-      let displayUrl = packet.url;
-      if (!displayUrl || displayUrl === "#") {
-        displayUrl = '⚠️ not configured';
-      } else {
-        // trim for preview but show full in title
-        if (displayUrl.length > 48) {
-          displayUrl = displayUrl.substring(0, 45) + '...';
-        }
-      }
-      
-      // inner structure
+      const card = document.createElement('div');
+      card.className = 'packet-card';
       card.innerHTML = `
         <div class="card-content">
           <div class="packet-label">
             <span class="ordinal">${escapeHtml(packet.label)}</span>
             ${addonBadge}
           </div>
-          <div class="url-preview" title="Click 'Visit' to open the website — current destination: ${packet.url === '#' ? 'placeholder, set real URL in customUrls' : packet.url}">
-            ${packet.url === '#' ? '🔒 set URL in config' : (packet.url.length > 55 ? packet.url.substring(0, 52)+'…' : packet.url)}
+          <div class="url-preview" title="${escapeAttr(packet.url)}">
+            ${packet.url === "#" ? '🔒 set URL in config' : (packet.url.length > 55 ? packet.url.substring(0,52)+'…' : packet.url)}
           </div>
           <button class="btn-visit" data-url="${escapeAttr(packet.url)}" data-label="${escapeAttr(packet.label)}">
-            🌐  Visit website  →
+            🌐 Visit website →
           </button>
         </div>
       `;
-      
       container.appendChild(card);
     });
-    
-    // attach event listeners to all buttons (delegation or direct)
-    document.querySelectorAll('.btn-visit').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    attachVisitEvents(container);
+  }
+
+  function renderPeriodReviews() {
+    const container = document.getElementById('reviewsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    for (const [label, url] of Object.entries(periodReviews)) {
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.innerHTML = `
+        <div class="card-content">
+          <div class="review-label">${escapeHtml(label)}</div>
+          <div class="url-preview" title="${escapeAttr(url)}">
+            ${url === "#" ? '🔗 no link set' : (url.length > 55 ? url.substring(0,52)+'…' : url)}
+          </div>
+          <button class="btn-visit" data-url="${escapeAttr(url)}" data-label="${escapeAttr(label)}">
+            📖 Open review →
+          </button>
+        </div>
+      `;
+      container.appendChild(card);
+    }
+    attachVisitEvents(container);
+  }
+
+  function renderExtras() {
+    const container = document.getElementById('extrasContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    if (additionalEntries.length === 0) {
+      container.innerHTML = '<div style="padding:2rem; text-align:center;">✨ No extra entries. Add some by editing the `additionalEntries` array in the script.</div>';
+      return;
+    }
+    additionalEntries.forEach(entry => {
+      const card = document.createElement('div');
+      card.className = 'extra-card';
+      card.innerHTML = `
+        <div class="card-content">
+          <div class="extra-label">${escapeHtml(entry.label)}</div>
+          <div class="url-preview" title="${escapeAttr(entry.url)}">
+            ${entry.url === "#" ? '⚠️ missing URL' : (entry.url.length > 55 ? entry.url.substring(0,52)+'…' : entry.url)}
+          </div>
+          <button class="btn-visit" data-url="${escapeAttr(entry.url)}" data-label="${escapeAttr(entry.label)}">
+            🌐 Go to website →
+          </button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+    attachVisitEvents(container);
+  }
+
+  function attachVisitEvents(containerEl) {
+    containerEl.querySelectorAll('.btn-visit').forEach(btn => {
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+      newBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const url = btn.getAttribute('data-url');
-        const label = btn.getAttribute('data-label');
-        
+        const url = newBtn.getAttribute('data-url');
+        const label = newBtn.getAttribute('data-label');
         if (!url || url === "#") {
-          alert(`🔧 "${label}" has no valid URL yet.\n\nPlease edit the "customUrls" object in the <script> and set the correct website address.\n\nExample:\n"${label}": "https://your-actual-site.com"`);
+          alert(`🔧 "${label}" has no valid URL yet.\n\nEdit the configuration (periodReviews or additionalEntries) directly in the HTML source code.`);
           return;
         }
-        
-        // try to open website in new tab
         window.open(url, '_blank', 'noopener,noreferrer');
       });
     });
   }
-  
-  // small helper to escape HTML
+
   function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
@@ -467,42 +487,21 @@
       if (m === '<') return '&lt;';
       if (m === '>') return '&gt;';
       return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
     });
   }
-  
+
   function escapeAttr(str) {
     if (!str) return '';
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
-  
-  // Render on load
+
+  // initialize everything
   window.addEventListener('DOMContentLoaded', () => {
-    renderCards();
-    
-    // optional: small console reminder for configuration
-    console.log('📡 Packet Index ready | 36 websites (no 14th, double 24th)');
-    console.log('🔧 To add your website URLs, edit the "customUrls" object inside <script> tag.');
+    renderPackets();
+    renderPeriodReviews();
+    renderExtras();
+    console.log('✅ Index ready — all data is static (edit the script to modify)');
   });
 </script>
-
-<!-- additional inline note for clarity (visible in source) -->
-<!-- 
-  ==============================================================
-  HOW TO SET YOUR 36 WEBSITE LINKS (super simple):
-  
-  1. Look for the "customUrls" object inside the <script> above.
-  2. You'll see labels like "1st Packet": "#", "2nd Packet": "#", ... up to "36th Packet"
-  3. Replace each "#" with the full URL of your corresponding website.
-     Example: "15th Packet": "https://myfifteenthwebsite.com",
-  4. Save the file and open in browser — all cards will link to your sites.
-  
-  IMPORTANT: 
-    - The 14th packet is intentionally missing.
-    - "24th Packet" and "24th Packet Add-on" are two separate entries.
-    - Total count = 36 cards. Ensure you fill both 24th entries with their unique URLs.
-  ==============================================================
--->
 </body>
 </html>
