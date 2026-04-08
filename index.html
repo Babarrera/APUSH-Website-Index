@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>APUSH Index | Packets + Period Reviews + Extras</title>
+  <title>APUSH Index | Secure Access</title>
   <style>
     * {
       margin: 0;
@@ -16,6 +16,68 @@
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
       padding: 2rem 1.5rem;
       color: #1a2c3e;
+    }
+
+    /* Login overlay */
+    .login-container {
+      max-width: 500px;
+      margin: 5rem auto;
+      background: white;
+      border-radius: 32px;
+      padding: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+      border: 1px solid #dce9f2;
+    }
+
+    .login-container h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #1e4663;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #cbdde9;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .login-container input:focus {
+      outline: none;
+      border-color: #2c7da0;
+      box-shadow: 0 0 0 2px #2c7da030;
+    }
+
+    .login-container button {
+      width: 100%;
+      background: #1f5e83;
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .login-container button:hover {
+      background: #0f4468;
+    }
+
+    .error-msg {
+      color: #b91c1c;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    /* Main content (hidden until login) */
+    .main-content {
+      display: none;
     }
 
     .container {
@@ -223,6 +285,72 @@
       padding-top: 2rem;
     }
 
+    /* Access log button and panel */
+    .access-panel {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-log {
+      background: #2c7da0;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .welcome-badge {
+      background: #e9f0f5;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      color: #1e4663;
+    }
+    .log-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .log-content {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 28px;
+      padding: 1.5rem;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    .log-content h3 {
+      margin-bottom: 1rem;
+      color: #1e4663;
+    }
+    .log-entry {
+      border-bottom: 1px solid #cbdde9;
+      padding: 0.6rem 0;
+      font-size: 0.85rem;
+    }
+    .close-log {
+      margin-top: 1rem;
+      background: #1f5e83;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+
     @media (max-width: 640px) {
       body { padding: 1rem; }
       h1 { font-size: 2rem; }
@@ -231,51 +359,89 @@
   </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="badge">✦ APUSH MASTER INDEX ✦</div>
-    <h1>Packet Navigator</h1>
-    <div class="subhead">36 packets · period reviews · additional resources</div>
-    <div class="info-note">
-      📦 1st → 36th packet (skip 14th) &nbsp;|&nbsp; 
-      <span>✨ 24th + 24th add-on</span> &nbsp;|&nbsp;
-      ⚡ all links open in new tab
+
+<!-- LOGIN FORM (shown first) -->
+<div id="loginContainer" class="login-container">
+  <h2>🔐 Restricted Access</h2>
+  <p style="margin-bottom: 1rem; color: #2c5a7a;">Enter credentials to view the APUSH index.</p>
+  <input type="text" id="loginUsername" placeholder="Username" autocomplete="off">
+  <input type="password" id="loginPassword" placeholder="Password">
+  <input type="text" id="loginNickname" placeholder="Your nickname (any name)">
+  <input type="email" id="loginEmail" placeholder="Your email address">
+  <button id="loginBtn">Unlock Index →</button>
+  <div id="loginError" class="error-msg"></div>
+</div>
+
+<!-- MAIN CONTENT (hidden until login) -->
+<div id="mainContent" class="main-content">
+  <div class="container">
+    <div class="access-panel">
+      <div class="welcome-badge" id="welcomeMessage"></div>
+      <button id="viewLogBtn" class="btn-log">📋 View access log</button>
+    </div>
+    <div class="header">
+      <div class="badge">✦ APUSH MASTER INDEX ✦</div>
+      <h1>Packet Navigator</h1>
+      <div class="subhead">36 packets · period reviews · additional resources</div>
+      <div class="info-note">
+        📦 1st → 36th packet (skip 14th) &nbsp;|&nbsp; 
+        <span>✨ 24th + 24th add-on</span> &nbsp;|&nbsp;
+        ⚡ all links open in new tab
+      </div>
+    </div>
+
+    <!-- SECTION 1: PACKETS (36 original) -->
+    <div class="section">
+      <div class="section-title">📮 Packet index (1–36)</div>
+      <div id="cardsContainer" class="packet-grid">
+        <div style="text-align:center; padding: 2rem;">Loading packets...</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: PERIOD REVIEWS -->
+    <div class="section">
+      <div class="section-title">📚 Period reviews</div>
+      <div class="section-sub">APUSH periods 1–9 – edit the `periodReviews` object in the script to add your URLs</div>
+      <div id="reviewsContainer" class="review-grid">
+        <div style="text-align:center; padding: 2rem;">Loading periods...</div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: ADDITIONAL WEBSITES (static, code-only) -->
+    <div class="section">
+      <div class="section-title">➕ Additional websites</div>
+      <div class="section-sub">Edit the `additionalEntries` array in the script to add new links (copy‑paste into the code)</div>
+      <div id="extrasContainer" class="extras-grid">
+        <div style="text-align:center; padding: 2rem;">Loading extras...</div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      🧭 All links open in new tab. To add or change any link, edit the configuration objects inside the &lt;script&gt; tag.<br>
+      Missing 14th packet is intentional; 24th packet includes an add‑on.
     </div>
   </div>
+</div>
 
-  <!-- SECTION 1: PACKETS (36 original) -->
-  <div class="section">
-    <div class="section-title">📮 Packet index (1–36)</div>
-    <div id="cardsContainer" class="packet-grid">
-      <div style="text-align:center; padding: 2rem;">Loading packets...</div>
-    </div>
-  </div>
-
-  <!-- SECTION 2: PERIOD REVIEWS -->
-  <div class="section">
-    <div class="section-title">📚 Period reviews</div>
-    <div class="section-sub">APUSH periods 1–9 – edit the `periodReviews` object in the script to add your URLs</div>
-    <div id="reviewsContainer" class="review-grid">
-      <div style="text-align:center; padding: 2rem;">Loading periods...</div>
-    </div>
-  </div>
-
-  <!-- SECTION 3: ADDITIONAL WEBSITES (static, code-only) -->
-  <div class="section">
-    <div class="section-title">➕ Additional websites</div>
-    <div class="section-sub">Edit the `additionalEntries` array in the script to add new links (copy‑paste into the code)</div>
-    <div id="extrasContainer" class="extras-grid">
-      <div style="text-align:center; padding: 2rem;">Loading extras...</div>
-    </div>
-  </div>
-
-  <div class="footer-note">
-    🧭 All links open in new tab. To add or change any link, edit the configuration objects inside the &lt;script&gt; tag.<br>
-    Missing 14th packet is intentional; 24th packet includes an add‑on.
+<!-- Modal for access log -->
+<div id="logModal" class="log-modal">
+  <div class="log-content">
+    <h3>📜 Access Log (who has logged in)</h3>
+    <div id="logList"></div>
+    <button id="closeLogBtn" class="close-log">Close</button>
   </div>
 </div>
 
 <script>
+  // ==============================================================
+  // CREDENTIALS (hardcoded)
+  // ==============================================================
+  const VALID_USERNAME = "Benji_is_amazing";
+  const VALID_PASSWORD = "I_Love_Benji_1016";
+
+  // Storage key for access log
+  const ACCESS_LOG_KEY = "apush_access_log";
+
   // ==============================================================
   // 1. PACKET CONFIGURATION (exactly as you provided)
   // ==============================================================
@@ -370,7 +536,6 @@
 
   // ==============================================================
   // 3. ADDITIONAL WEBSITES - EDIT THIS ARRAY (copy/paste new entries)
-  //    Each entry: { label: "Display name", url: "https://..." }
   // ==============================================================
   let additionalEntries = [
     { label: "📌 Example extra resource", url: "#" }
@@ -380,7 +545,7 @@
   ];
 
   // ==============================================================
-  // RENDER FUNCTIONS (no user modification from browser)
+  // RENDER FUNCTIONS (same as before)
   // ==============================================================
   function renderPackets() {
     const container = document.getElementById('cardsContainer');
@@ -493,12 +658,111 @@
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // initialize everything
-  window.addEventListener('DOMContentLoaded', () => {
+  // ==============================================================
+  // LOGIN & ACCESS LOG MANAGEMENT
+  // ==============================================================
+  function recordAccess(nickname, email) {
+    let log = [];
+    const stored = localStorage.getItem(ACCESS_LOG_KEY);
+    if (stored) {
+      try {
+        log = JSON.parse(stored);
+      } catch(e) {}
+    }
+    log.unshift({
+      nickname: nickname,
+      email: email,
+      timestamp: new Date().toLocaleString()
+    });
+    // keep last 50 entries
+    if (log.length > 50) log = log.slice(0, 50);
+    localStorage.setItem(ACCESS_LOG_KEY, JSON.stringify(log));
+  }
+
+  function getAccessLog() {
+    const stored = localStorage.getItem(ACCESS_LOG_KEY);
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch(e) { return []; }
+    }
+    return [];
+  }
+
+  function displayLogModal() {
+    const modal = document.getElementById('logModal');
+    const logListDiv = document.getElementById('logList');
+    const log = getAccessLog();
+    if (log.length === 0) {
+      logListDiv.innerHTML = '<div class="log-entry">No access records yet.</div>';
+    } else {
+      logListDiv.innerHTML = log.map(entry => 
+        `<div class="log-entry"><strong>${escapeHtml(entry.nickname)}</strong> (${escapeHtml(entry.email)})<br><small>${escapeHtml(entry.timestamp)}</small></div>`
+      ).join('');
+    }
+    modal.style.display = 'flex';
+  }
+
+  function closeLogModal() {
+    document.getElementById('logModal').style.display = 'none';
+  }
+
+  function performLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    const nickname = document.getElementById('loginNickname').value.trim();
+    const email = document.getElementById('loginEmail').value.trim();
+    const errorDiv = document.getElementById('loginError');
+
+    if (!username || !password || !nickname || !email) {
+      errorDiv.innerText = 'All fields are required.';
+      return;
+    }
+    if (username !== VALID_USERNAME || password !== VALID_PASSWORD) {
+      errorDiv.innerText = 'Invalid username or password.';
+      return;
+    }
+    // valid login
+    recordAccess(nickname, email);
+    // store current user info in sessionStorage to show welcome
+    sessionStorage.setItem('apush_current_user', JSON.stringify({ nickname, email }));
+    // hide login container, show main content
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('welcomeMessage').innerHTML = `👋 Welcome, ${escapeHtml(nickname)}!`;
+    // render all content
     renderPackets();
     renderPeriodReviews();
     renderExtras();
-    console.log('✅ Index ready — all data is static (edit the script to modify)');
+  }
+
+  // check if already logged in (sessionStorage)
+  function checkExistingLogin() {
+    const storedUser = sessionStorage.getItem('apush_current_user');
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('welcomeMessage').innerHTML = `👋 Welcome back, ${escapeHtml(user.nickname)}!`;
+        renderPackets();
+        renderPeriodReviews();
+        renderExtras();
+      } catch(e) {}
+    }
+  }
+
+  // initialize event listeners
+  window.addEventListener('DOMContentLoaded', () => {
+    checkExistingLogin();
+    document.getElementById('loginBtn').addEventListener('click', performLogin);
+    document.getElementById('viewLogBtn').addEventListener('click', displayLogModal);
+    document.getElementById('closeLogBtn').addEventListener('click', closeLogModal);
+    // close modal when clicking outside
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('logModal');
+      if (e.target === modal) closeLogModal();
+    });
   });
 </script>
 </body>
