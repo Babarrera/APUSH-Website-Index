@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>APUSH Index | Secure Access</title>
+  <title>APUSH Index | Packets + Period Reviews + Extras</title>
   <style>
     * {
       margin: 0;
@@ -382,17 +382,17 @@
     <div class="header">
       <div class="badge">✦ APUSH MASTER INDEX ✦</div>
       <h1>Packet Navigator</h1>
-      <div class="subhead">36 packets · period reviews · additional resources</div>
+      <div class="subhead">42 packets · period reviews · additional resources</div>
       <div class="info-note">
-        📦 1st → 36th packet (skip 14th) &nbsp;|&nbsp; 
+        📦 1st → 42nd packet (skip 14th) &nbsp;|&nbsp; 
         <span>✨ 24th + 24th add-on</span> &nbsp;|&nbsp;
         ⚡ all links open in new tab
       </div>
     </div>
 
-    <!-- SECTION 1: PACKETS (36 original) -->
+    <!-- SECTION 1: PACKETS (42 total, 1-42 skip 14, double 24) -->
     <div class="section">
-      <div class="section-title">📮 Packet index (1–36)</div>
+      <div class="section-title">📮 Packet index (1–42)</div>
       <div id="cardsContainer" class="packet-grid">
         <div style="text-align:center; padding: 2rem;">Loading packets...</div>
       </div>
@@ -418,7 +418,7 @@
 
     <div class="footer-note">
       🧭 All links open in new tab. To add or change any link, edit the configuration objects inside the &lt;script&gt; tag.<br>
-      Missing 14th packet is intentional; 24th packet includes an add‑on.
+      Missing 14th packet is intentional; 24th packet includes an add‑on. Packets 37–42 have been added.
     </div>
   </div>
 </div>
@@ -443,7 +443,7 @@
   const ACCESS_LOG_KEY = "apush_access_log";
 
   // ==============================================================
-  // 1. PACKET CONFIGURATION (exactly as you provided)
+  // 1. PACKET CONFIGURATION (1–42, skip 14, double 24, added 37–42)
   // ==============================================================
   const customUrls = {
     "1st Packet": "https://babarrera.github.io/APUSH-1st-Packet/",
@@ -482,10 +482,17 @@
     "33rd Packet": "https://babarrera.github.io/APUSH-33rd-Packet-/",
     "34th Packet": "https://babarrera.github.io/APUSH-34th-Packet-/",
     "35th Packet": "https://babarrera.github.io/APUSH-35th-Packet-/",
-    "36th Packet": "https://babarrera.github.io/APUSH-36th-Packet/"
+    "36th Packet": "https://babarrera.github.io/APUSH-36th-Packet/",
+    // New packets 37–42
+    "37th Packet": "https://babarrera.github.io/APUSH-37th-Packet-/",
+    "38th Packet": "https://babarrera.github.io/APUSH-38th-Packet-/",
+    "39th Packet": "https://babarrera.github.io/APUSH-39th-Packet-/",
+    "40th Packet": "https://babarrera.github.io/APUSH-40th-Packet-/",
+    "41st Packet": "https://babarrera.github.io/APUSH-41st-Packet-/",
+    "42nd Packet": "https://babarrera.github.io/APUSH-42nd-Packet/"
   };
 
-  // Generate 36 packet labels (skip 14, double 24)
+  // Generate packet labels from 1 to 42 (skip 14, double 24)
   function generatePacketLabels() {
     const labels = [];
     function ordinal(n) {
@@ -498,9 +505,11 @@
       if (n === 31) return "31st";
       if (n === 32) return "32nd";
       if (n === 33) return "33rd";
+      if (n === 41) return "41st";
+      if (n === 42) return "42nd";
       return `${n}th`;
     }
-    for (let i = 1; i <= 36; i++) {
+    for (let i = 1; i <= 42; i++) {
       if (i === 14) continue;
       if (i === 24) {
         labels.push("24th Packet");
@@ -528,8 +537,8 @@
     "Period 1-3 (1491–1800)": "https://babarrera.github.io/APUSH-Units-1-3/",
     "Period 4 (1800–1848)": "https://babarrera.github.io/APUSH-UNIT-4/",
     "Period 5 (1844–1877)": "https://babarrera.github.io/APUSH-UNIT-5/",
-    "Period 6 (1865–1898)": "https://babarrera.github.io/APUSH-UNIT-6/",
-    "Period 7 (1890–1945)": "https://babarrera.github.io/APUSH-UNIT-7/",
+    "Period 6 (1865–1898)": "#",
+    "Period 7 (1890–1945)": "#",
     "Period 8 (1945–1980)": "#",
     "Period 9 (1980–Present)": "#"
   };
@@ -545,7 +554,7 @@
   ];
 
   // ==============================================================
-  // RENDER FUNCTIONS (same as before)
+  // RENDER FUNCTIONS (unchanged)
   // ==============================================================
   function renderPackets() {
     const container = document.getElementById('cardsContainer');
@@ -674,7 +683,6 @@
       email: email,
       timestamp: new Date().toLocaleString()
     });
-    // keep last 50 entries
     if (log.length > 50) log = log.slice(0, 50);
     localStorage.setItem(ACCESS_LOG_KEY, JSON.stringify(log));
   }
@@ -722,21 +730,16 @@
       errorDiv.innerText = 'Invalid username or password.';
       return;
     }
-    // valid login
     recordAccess(nickname, email);
-    // store current user info in sessionStorage to show welcome
     sessionStorage.setItem('apush_current_user', JSON.stringify({ nickname, email }));
-    // hide login container, show main content
     document.getElementById('loginContainer').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
     document.getElementById('welcomeMessage').innerHTML = `👋 Welcome, ${escapeHtml(nickname)}!`;
-    // render all content
     renderPackets();
     renderPeriodReviews();
     renderExtras();
   }
 
-  // check if already logged in (sessionStorage)
   function checkExistingLogin() {
     const storedUser = sessionStorage.getItem('apush_current_user');
     if (storedUser) {
@@ -752,13 +755,11 @@
     }
   }
 
-  // initialize event listeners
   window.addEventListener('DOMContentLoaded', () => {
     checkExistingLogin();
     document.getElementById('loginBtn').addEventListener('click', performLogin);
     document.getElementById('viewLogBtn').addEventListener('click', displayLogModal);
     document.getElementById('closeLogBtn').addEventListener('click', closeLogModal);
-    // close modal when clicking outside
     window.addEventListener('click', (e) => {
       const modal = document.getElementById('logModal');
       if (e.target === modal) closeLogModal();
